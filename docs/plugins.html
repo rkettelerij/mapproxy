@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Writing plugins &#8212; MapProxy 1.15.0 Docs</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
@@ -100,17 +101,17 @@
       </div>
     <div class="col-md-8">
       
-  <div class="section" id="writing-plugins">
+  <section id="writing-plugins">
 <h1>Writing plugins<a class="headerlink" href="#writing-plugins" title="Permalink to this heading">¶</a></h1>
 <p>Since MapProxy 1.15, it is possible to write plugins for MapProxy that can
 add new sources, services or commands. This requires Python &gt;= 3.7</p>
-<div class="section" id="example">
+<section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
 <p>The mapproxy_hips plugin at <a class="reference external" href="https://github.com/rouault/mapproxy_hips">https://github.com/rouault/mapproxy_hips</a> is an
 example of a plugin, which adds a new source, service and customizes the demo
 service, demonstrating all the below points.</p>
-</div>
-<div class="section" id="how-to-add-a-plugin">
+</section>
+<section id="how-to-add-a-plugin">
 <h2>How to add a plugin ?<a class="headerlink" href="#how-to-add-a-plugin" title="Permalink to this heading">¶</a></h2>
 <p>A plugin should be written as a Python package whose setuptools <code class="docutils literal notranslate"><span class="pre">setup()</span></code>
 method has a <code class="docutils literal notranslate"><span class="pre">entry_points</span></code> keyword with a group <code class="docutils literal notranslate"><span class="pre">mapproxy</span></code> pointing to
@@ -131,14 +132,14 @@ detailed hereafter.</p>
 <p>Plugins will often by dependent on MapProxy internal classes. It is their
 responsibility to check the MapProxy version, in case the MapProxy internal
 API or behavior would change and make them incompatible.</p>
-</div>
-<div class="section" id="adding-a-new-service">
+</section>
+<section id="adding-a-new-service">
 <h2>Adding a new service<a class="headerlink" href="#adding-a-new-service" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">mapproxy.config.loader</span></code> module has a <code class="docutils literal notranslate"><span class="pre">register_service_configuration()</span></code>
 method to register a new service and specify the allowed keywords for it in
 the YAML configuration file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">register_service_configuration</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_creator</span><span class="p">,</span>
-                                   <span class="n">yaml_spec_service_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yaml_spec_service_def</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                                   <span class="n">yaml_spec_service_name</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">yaml_spec_service_def</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Method used by plugins to register a new service.</span>
 
 <span class="sd">        :param config_name: Name of the service</span>
@@ -171,14 +172,14 @@ the YAML configuration file.</p>
 </pre></div>
 </div>
 <p>This allows the following declaration in the YAML mapproxy configuration file:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">my_extra_service</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bar</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+    <span class="nt">my_extra_service</span><span class="p">:</span>
+        <span class="nt">foo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bar</span>
 </pre></div>
 </div>
 <p>A real-world implementation can be found at <a class="reference external" href="https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/service/hips.py">https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/service/hips.py</a></p>
-</div>
-<div class="section" id="customizing-layer-metadata-in-yaml-configuration-file">
+</section>
+<section id="customizing-layer-metadata-in-yaml-configuration-file">
 <h2>Customizing layer metadata in YAML configuration file<a class="headerlink" href="#customizing-layer-metadata-in-yaml-configuration-file" title="Permalink to this heading">¶</a></h2>
 <p>When implementing a new service, it might be useful to add per-layer metadata
 for it. The YAML validator needs to be updated to recognize the new keywords.
@@ -198,14 +199,14 @@ can be used to do that.</p>
 <span class="n">add_subcategory_to_layer_md</span><span class="p">(</span><span class="s1">&#39;hips&#39;</span><span class="p">,</span> <span class="n">anything</span><span class="p">())</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="adding-a-new-source">
+</section>
+<section id="adding-a-new-source">
 <h2>Adding a new source<a class="headerlink" href="#adding-a-new-source" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">mapproxy.config.loader</span></code> module has a <code class="docutils literal notranslate"><span class="pre">register_source_configuration()</span></code>
 method to register a new source and specify the allowed keywords for it in
 the YAML configuration file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">register_source_configuration</span><span class="p">(</span><span class="n">config_name</span><span class="p">,</span> <span class="n">config_class</span><span class="p">,</span>
-                                  <span class="n">yaml_spec_source_name</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yaml_spec_source_def</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                                  <span class="n">yaml_spec_source_name</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">yaml_spec_source_def</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Method used by plugins to register a new source configuration.</span>
 
 <span class="sd">        :param config_name: Name of the source configuration</span>
@@ -226,12 +227,12 @@ the YAML configuration file.</p>
 <span class="k">class</span> <span class="nc">my_source_configuration</span><span class="p">(</span><span class="n">SourceConfiguration</span><span class="p">):</span>
     <span class="n">source_type</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;my_extra_source&#39;</span><span class="p">,)</span>
 
-    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="c1"># Look at classes at https://github.com/mapproxy/mapproxy/tree/master/mapproxy/source</span>
         <span class="c1"># for a real implementation</span>
         <span class="k">class</span> <span class="nc">MySource</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
             <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">extent</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">extent</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">return</span> <span class="n">MySource</span><span class="p">()</span>
 
 <span class="n">register_source_configuration</span><span class="p">(</span><span class="s1">&#39;my_extra_source&#39;</span><span class="p">,</span> <span class="n">my_source_configuration</span><span class="p">,</span>
@@ -239,15 +240,15 @@ the YAML configuration file.</p>
 </pre></div>
 </div>
 <p>This allows the following declaration in the YAML mapproxy configuration file:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sources</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">some_source_name</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_extra_source</span><span class="w"></span>
-<span class="w">        </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bar</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sources</span><span class="p">:</span>
+    <span class="nt">some_source_name</span><span class="p">:</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my_extra_source</span>
+        <span class="nt">foo</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bar</span>
 </pre></div>
 </div>
 <p>A real-world implementation can be found at <a class="reference external" href="https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/source/hips.py">https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/source/hips.py</a></p>
-</div>
-<div class="section" id="customizing-the-demo-service">
+</section>
+<section id="customizing-the-demo-service">
 <h2>Customizing the demo service<a class="headerlink" href="#customizing-the-demo-service" title="Permalink to this heading">¶</a></h2>
 <p>The <a class="reference internal" href="services.html#demo-service-label"><span class="std std-ref">MapProxy Demo Service</span></a> can be customized in two ways:</p>
 <ul>
@@ -292,7 +293,7 @@ method of the <code class="docutils literal notranslate"><span class="pre">mappr
 <span class="k">def</span> <span class="nf">demo_server_handler</span><span class="p">(</span><span class="n">demo_server</span><span class="p">,</span> <span class="n">req</span><span class="p">):</span>
     <span class="k">if</span> <span class="s1">&#39;my_service&#39;</span> <span class="ow">in</span> <span class="n">req</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;my_return&#39;</span>
-    <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="bp">None</span>
 
 <span class="k">def</span> <span class="nf">demo_substitution_handler</span><span class="p">(</span><span class="n">demo_server</span><span class="p">,</span> <span class="n">req</span><span class="p">,</span> <span class="n">substitutions</span><span class="p">):</span>
     <span class="n">html</span> <span class="o">=</span> <span class="s1">&#39;&lt;h2&gt;My extra service&lt;/h2&gt;&#39;</span>
@@ -304,8 +305,8 @@ method of the <code class="docutils literal notranslate"><span class="pre">mappr
 </pre></div>
 </div>
 <p>A real-world example can be found at <a class="reference external" href="https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/service/demo_extra.py">https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/service/demo_extra.py</a></p>
-</div>
-<div class="section" id="adding-new-commands-to-mapproxy-util">
+</section>
+<section id="adding-new-commands-to-mapproxy-util">
 <h2>Adding new commands to mapproxy-util<a class="headerlink" href="#adding-new-commands-to-mapproxy-util" title="Permalink to this heading">¶</a></h2>
 <p>New commands can be added to <a class="reference internal" href="mapproxy_util.html#mapproxy-util"><span class="std std-ref">mapproxy-util</span></a> by using the
 <code class="docutils literal notranslate"><span class="pre">register_command()</span></code> method of the <code class="docutils literal notranslate"><span class="pre">mapproxy.script.util</span></code> module</p>
@@ -323,7 +324,7 @@ method of the <code class="docutils literal notranslate"><span class="pre">mappr
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optparse</span>
 <span class="kn">from</span> <span class="nn">mapproxy.script.util</span> <span class="kn">import</span> <span class="n">register_command</span>
 
-<span class="k">def</span> <span class="nf">my_command</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">my_command</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">optparse</span><span class="o">.</span><span class="n">OptionParser</span><span class="p">(</span><span class="s2">&quot;%prog my_command [options] -f mapproxy_conf -l layer&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--mapproxy-conf&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;mapproxy_conf&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;MapProxy configuration.&quot;</span><span class="p">)</span>
@@ -349,13 +350,13 @@ method of the <code class="docutils literal notranslate"><span class="pre">mappr
 <p>A real-world example can be found at
 <a class="reference external" href="https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/script/hipsallsky.py">https://github.com/rouault/mapproxy_hips/blob/master/mapproxy_hips/script/hipsallsky.py</a>
 `</p>
-</div>
-<div class="section" id="credits">
+</section>
+<section id="credits">
 <h2>Credits<a class="headerlink" href="#credits" title="Permalink to this heading">¶</a></h2>
 <p>The development of the plugin mechanism has been funded by
 Centre National d’Etudes Spatiales (CNES): <a class="reference external" href="https://cnes.fr">https://cnes.fr</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
     </div>

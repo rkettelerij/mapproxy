@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Caching Dimensions &#8212; MapProxy 1.15.0 Docs</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css" />
@@ -88,7 +89,7 @@
       </div>
     <div class="col-md-8">
       
-  <div class="section" id="caching-dimensions">
+  <section id="caching-dimensions">
 <h1>Caching Dimensions<a class="headerlink" href="#caching-dimensions" title="Permalink to this heading">¶</a></h1>
 <p>WMS servers have the capability to offer layers with 1..n dimensions.  A WMS
 layer may provide dimensions such as time, elevation or other axes to be able
@@ -98,7 +99,7 @@ is an example typically implemented by WMS providers of multidimensional
 data.</p>
 <p>MapProxy supports caching layers with dimensions and making them available
 through standard WMS mechanisms.</p>
-<div class="section" id="configuration">
+<section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading">¶</a></h2>
 <p>To enable dimension caching, the underlying WMS layer must have dimensions
 defined and available.  The following properties are required in configuration
@@ -115,34 +116,34 @@ as a list of dimension values.  Dimension lists can be intervals, or a
 a compound value of <code class="docutils literal notranslate"><span class="pre">start-date-time/end-date-time/duration</span></code></p></li>
 </ul>
 <p>An example is shown below:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sources</span><span class="p">:</span><span class="w"></span>
-<span class="w">     </span><span class="nt">test</span><span class="p">:</span><span class="w"></span>
-<span class="w">       </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wms</span><span class="w"></span>
-<span class="w">       </span><span class="nt">req</span><span class="p">:</span><span class="w"></span>
-<span class="w">         </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://example.org/wms</span><span class="w"></span>
-<span class="w">         </span><span class="nt">layers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">global-air-temperature-15km</span><span class="w"></span>
-<span class="w">       </span><span class="nt">forward_req_params</span><span class="p">:</span><span class="w"></span>
-<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">time</span><span class="w"></span>
-<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dim_reference_time</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sources</span><span class="p">:</span>
+     <span class="nt">test</span><span class="p">:</span>
+       <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">wms</span>
+       <span class="nt">req</span><span class="p">:</span>
+         <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://example.org/wms</span>
+         <span class="nt">layers</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">global-air-temperature-15km</span>
+       <span class="nt">forward_req_params</span><span class="p">:</span>
+         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">time</span>
+         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dim_reference_time</span>
 </pre></div>
 </div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">layers</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">global-air-temperature-15km</span><span class="w"></span>
-<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global Air Temperature (°C) - 15km</span><span class="w"></span>
-<span class="w">    </span><span class="nt">sources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">test_cache</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="w">    </span><span class="nt">dimensions</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">values</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2020-09-22T11:20:00Z/2020-09-22T14:20:00Z/PT2H&quot;</span><span class="w"></span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2020-09-22T14:20:00Z&quot;</span><span class="w"></span>
-<span class="w">      </span><span class="nt">dim_reference_time</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">values</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2020-09-22T11:20:00Z/2020-09-22T14:20:00Z/PT2H&quot;</span><span class="w"></span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2020-09-22T14:20:00Z&quot;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">layers</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">global-air-temperature-15km</span>
+    <span class="nt">title</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Global Air Temperature (°C) - 15km</span>
+    <span class="nt">sources</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">test_cache</span><span class="p p-Indicator">]</span>
+    <span class="nt">dimensions</span><span class="p">:</span>
+      <span class="nt">time</span><span class="p">:</span>
+        <span class="nt">values</span><span class="p">:</span>
+          <span class="p p-Indicator">-</span> <span class="s">&quot;2020-09-22T11:20:00Z/2020-09-22T14:20:00Z/PT2H&quot;</span>
+        <span class="nt">default</span><span class="p">:</span> <span class="s">&quot;2020-09-22T14:20:00Z&quot;</span>
+      <span class="nt">dim_reference_time</span><span class="p">:</span>
+        <span class="nt">values</span><span class="p">:</span>
+          <span class="p p-Indicator">-</span> <span class="s">&quot;2020-09-22T11:20:00Z/2020-09-22T14:20:00Z/PT2H&quot;</span>
+        <span class="nt">default</span><span class="p">:</span> <span class="s">&quot;2020-09-22T14:20:00Z&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="iso-8601-interval">
+</section>
+<section id="iso-8601-interval">
 <h2>ISO 8601 Interval<a class="headerlink" href="#iso-8601-interval" title="Permalink to this heading">¶</a></h2>
 <dl class="simple">
 <dt>For example:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">2020-03-25T12:00:00Z/2020-03-27T00:00:00Z/PT12H30M</span></code></p>
@@ -173,8 +174,8 @@ a compound value of <code class="docutils literal notranslate"><span class="pre"
 </dl>
 </dd>
 </dl>
-</div>
-<div class="section" id="wms-capabilities">
+</section>
+<section id="wms-capabilities">
 <h2>WMS Capabilities<a class="headerlink" href="#wms-capabilities" title="Permalink to this heading">¶</a></h2>
 <p>The following is an example of the resulting WMS capabilities in MapProxy:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
@@ -254,8 +255,8 @@ a compound value of <code class="docutils literal notranslate"><span class="pre"
 <span class="nt">&lt;/WMS_Capabilities&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="known-limitations">
+</section>
+<section id="known-limitations">
 <h2>Known limitations<a class="headerlink" href="#known-limitations" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>some WMS time-enabled servers provide dimension support for real-time
@@ -271,12 +272,12 @@ administrator.  This can typically be done via cron/schedule accordingly</p></li
 <li><p>dimemsion support is only implemented in the default file cache backend
 at this time</p></li>
 </ul>
-</div>
-<div class="section" id="tests">
+</section>
+<section id="tests">
 <h2>Tests<a class="headerlink" href="#tests" title="Permalink to this heading">¶</a></h2>
 <p>All tests related to caching layer dimensions: <code class="docutils literal notranslate"><span class="pre">mapproxy/test/system/test_dimensions.py</span></code></p>
-</div>
-</div>
+</section>
+</section>
 
 
     </div>
